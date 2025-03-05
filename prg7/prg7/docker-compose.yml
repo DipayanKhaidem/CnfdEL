@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: Harimc@039
+      MYSQL_DATABASE: student
+      MYSQL_USER: mc039
+      MYSQL_PASSWORD: Harimc@039
+    networks:
+      - default
+
+  app1:
+    image: prg7/jcompose:latest
+    tty: true
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/student  
+      SPRING_DATASOURCE_DRIVERCLASSNAME: com.mysql.cj.jdbc.Driver
+      SPRING_DATASOURCE_USERNAME: mc039
+      SPRING_DATASOURCE_PASSWORD: Harimc@039
+      SERVER_PORT: 8081  # Different port for app1
+    depends_on:
+      - db
+    networks:
+      - default
+    ports:
+      - "8081:8081"  # Exposing container port 8081 to host
+
+  app2:
+    image: prg7/jcompose:latest
+    tty: true
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/student  
+      SPRING_DATASOURCE_DRIVERCLASSNAME: com.mysql.cj.jdbc.Driver
+      SPRING_DATASOURCE_USERNAME: mc039
+      SPRING_DATASOURCE_PASSWORD: Harimc@039
+      SERVER_PORT: 8082  # Different port for app2
+    depends_on:
+      - db
+    networks:
+      - default
+    ports:
+      - "8082:8082"  # Exposing container port 8082 to host
+
+networks:
+  default:
